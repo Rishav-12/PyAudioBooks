@@ -1,13 +1,9 @@
 import pyttsx3
 import PyPDF2
-from tkinter import *
+import PySimpleGUI as sg
 
-root = Tk()
-root.title("Python Audiobooks")
-root.geometry('400x400')
-
-def pdf_to_sound_file():
-	input_file_name = path_text.get(1.0, 'end-1c')
+def pdf_to_sound_file(filename):
+	input_file_name = filename
 	output_file_name = input_file_name.replace('.pdf', '.mp3')
 
 	# The Backend
@@ -31,14 +27,6 @@ def pdf_to_sound_file():
 		audio.save_to_file(final_text, output_file_name)
 		audio.runAndWait()
 
-# The GUI
-path_label = Label(root, text='File Path or URL')
-path_label.pack(pady=10)
-
-path_text = Text(root, height=1, font=("Arial", 12))
-path_text.pack(pady=5)
-
-convert_btn = Button(root, text='Start Converting', padx=4, pady=2, command=pdf_to_sound_file)
-convert_btn.pack(pady=8)
-
-root.mainloop()
+filename = sg.popup_get_file('Enter the file you wish to process')
+if filename:
+	pdf_to_sound_file(filename)
